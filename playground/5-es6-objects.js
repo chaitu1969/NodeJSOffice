@@ -15,7 +15,15 @@ const Movie = {
   hero: "Prabhas",
   villan: "rana",
   release: 2015,
+  stock: 5.6,
 };
-const { name, hero, Year } = Movie;
-console.log(name);
-console.log(Year);
+// const { name, hero, Year } = Movie;
+// console.log(name);
+// console.log(Movie);
+// Movie("King");
+
+const trasaction = (type, { lable, stock = 0 } = {}) => {
+  console.log(type, lable, stock);
+};
+
+trasaction("order", Movie);

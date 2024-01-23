@@ -4,6 +4,7 @@ const hbs = require("hbs");
 const app = express();
 const forecast = require("./utils/forecast");
 const geocode = require("./utils/geocode");
+// const document = require("document");
 
 // Defined path for Express confi
 const viewsPath = path.join(__dirname, "../templates/views");
@@ -26,36 +27,32 @@ app.get("", (req, res) => {
 });
 
 app.get("/weather", (req, res) => {
-  if (!req.query.location) {
+  if (!req.query.address) {
     return res.send({
-      Error: "Please enter the correct address!",
+      Error: "You must provide the address!!",
     });
   }
 
   geocode(
-    req.query.location,
+    req.query.address,
     (error, { latitude, longitude, location } = {}) => {
       if (error) {
-        return res.send({ error });
+        return res.send({
+          error,
+        });
       }
 
       forecast(latitude, longitude, (error, forecastData) => {
         if (error) {
-          return res.send({ error });
+          return res.send({
+            error,
+          });
         }
-        // const data = JSON.stringify(forecastData);
-        // console.log(forecastData);
-        const data = forecastData.current.temparature;
-        res.render("Weather", {
-          forecast: data,
-          location: req.query.location,
-          name: "chinna",
+        res.send({
+          forecast: forecastData,
+          location: location,
+          address: req.query.address,
         });
-        // res.send({
-        //   forecast: forecastData,
-        //   location: req.query.location,
-        //   name: "chinna",
-        // });
       });
     }
   );
@@ -105,3 +102,9 @@ app.get("*", (req, res) => {
 app.listen(3000, () => {
   console.log("server is up on port 3000");
 });
+
+// const weatherForm = document.querySelector("form");
+
+// weatherForm.addEventListener("submit", () => {
+//   console.log("Testing");
+// });

@@ -3,3 +3,5 @@ const greeter = (name = "Don", age) => {
 };
 
 greeter("Jenni");
+greeter();
+greeter("Jenni", 25);
